@@ -1,0 +1,23 @@
+import os
+
+
+class Config:
+    OPENSEARCH_HOST = 'XXX.XXX.XXX.XXX'  
+    OPENSEARCH_PORT = 9200
+    OPENSEARCH_USER = "XXX"
+    OPENSEARCH_PASSWORD = "XXXX"
+
+   
+    REDIS_HOST = '127.0.0.1'
+    REDIS_PORT = 6379
+    REDIS_PASSWORD = None 
+    REDIS_USE_SSL = False 
+
+    OCI_CONFIG_FILE = '~/.oci/config'
+    OCI_DEFAULT_PROFILE = 'DEFAULT'
+    OCI_CHICAGO_PROFILE = 'CHICAGO'
+    OCI_ENDPOINT = "XXX"
+    OCI_COMPARTMENT_ID = "XXX"
+    OCI_NAMESPACE = "oraseemeail"
+    OCI_BUCKET_NAME = "anastasiia"
+

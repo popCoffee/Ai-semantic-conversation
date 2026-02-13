@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oracle GenAI Document Chatbot - Personal Project </title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            background-color: #312D2A;
+            color: white;
+            padding: 10px 0;
+        }
+        header .container {
+            display: flex;
+            align-items: center;
+        }
+        .logo {
+            height: 40px;
+            margin-right: 20px;
+        }
+        h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        section {
+            background-color: white;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            padding: 20px;
+        }
+        h2 {
+            color: #312D2A;
+            margin-top: 0;
+        }
+        input, select, button, .msger-input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button, .msger-send-btn {
+            background-color: #1C4E80;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover, .msger-send-btn:hover {
+            background-color: #15385E;
+        }
+        .parameter-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        .msger {
+            display: flex;
+            flex-direction: column;
+            height: 400px;
+        }
+        .msger-chat {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        .msger-inputarea {
+            display: flex;
+            gap: 10px;
+        }
+        .msger-input {
+            flex: 1;
+        }
+        .msger-send-btn {
+            width: auto;
+        }
+        #modelInfo, #tokenLimitInfo {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        /* Add styles for the modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 5px;
+        }
+        .close-modal {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close-modal:hover,
+        .close-modal:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 400px;
+        }
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        .chat-input {
+            display: flex;
+            gap: 10px;
+        }
+        #user-message {
+            flex: 1;
+        }
+        .chat-input button {
+            width: auto;
+            padding: 10px 20px;
+        }
+    </style>
+</head>
+<body>
+  <header>
+      <div class="container">
+          <img src="{{ url_for('static', filename='images/oracle.png') }}" alt="Oracle Logo" class="logo">
+          <h1>GenAI Document Chatbot - Personal Project</h1>
+      </div>
+  </header>
+
+  <main class="container">
+    <section id="file-upload">
+      <h2>Upload Document(s)</h2>
+      <div class="upload-container">
+          <input type="file" id="fileUpload" name="files[]" multiple accept=".pdf,.docx">
+          <button onclick="uploadFiles()" class="btn-primary">Upload file(s)</button>
+      </div>
+      <div id="upload-status"></div>
+    </section>
+
+    <section id="model-selection">
+      <h2>Select Model</h2>
+      <select id="modelSelect">
+          <option value="">Loading models...</option>
+      </select>
+      <div id="tokenLimitInfo" style="margin-top: 10px; font-weight: bold;"></div>
+    </section>
+
+    <section id="parameters">
+      <h2>Model Parameters</h2>
+      <div class="parameter-grid">
+          <div class="parameter">
+              <label for="maxTokens">Max Tokens:</label>
+              <input type="number" id="maxTokens" value="500" min="1">
+              <div id="maxTokensInfo" style="margin-top: 5px; font-size: 0.9em;"></div>
+          </div>
+          <div class="parameter">
+              <label for="temperature">Temperature:</label>
+              <input type="number" id="temperature" value="0.7" min="0" max="2" step="0.1">
+          </div>
+          <div class="parameter">
+              <label for="frequencyPenalty">Frequency Penalty:</label>
+              <input type="number" id="frequencyPenalty" value="0.1" min="0" max="2" step="0.1">
+          </div>
+          <div class="parameter">
+              <label for="topP">Top P:</label>
+              <input type="number" id="topP" value="0.9" min="0" max="1" step="0.01">
+          </div>
+          <div class="parameter">
+              <label for="topK">Top K:</label>
+              <input type="number" id="topK" value="40" min="0" max="100" step="1">
+          </div>
+      </div>
+    </section>
+
+    <section id="chat">
+        <h2>Chat</h2>
+        <div class="chat-container">
+            <div class="chat-messages" id="chat-messages">
+            </div>
+            <form class="chat-input" id="chat-form">
+                <input type="text" id="user-message" placeholder="Type your message...">
+                <button type="submit" class="btn-primary">Send</button>
+            </form>
+        </div>
+    </section>
+  </main>
+
+  <div id="tokenLimitModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h2>Token Limit Information</h2>
+        <p id="tokenLimitMessage"></p>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
