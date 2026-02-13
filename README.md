@@ -1,32 +1,17 @@
-# GenAI Chatbot - OpenSearch & Redis with Generative AI OCI 
 
-This is a chatbot application that intelligently retrieves the best responses using:
 
-- OpenSearch – Indexes and retrieves structured search data.
+# **OpenSearch & Redis powered by OCI Generative AI**
+This chatbot application delivers fast, accurate, and context‑aware responses by combining:
 
-- Redis (Cache) – Provides fast, in-memory data retrieval.
-
-- Flask Backend (Python) – Handles queries and integrates with OpenSearch & Redis.
-
-- Frontend (JavaScript, HTML, CSS) – User interface for interacting with the chatbot.
-
-The chatbot intelligently finds and ranks the best match from OpenSearch and Redis, ensuring fast and accurate responses. It is designed for customer support, knowledge bases, and AI-driven assistance.
-
-**Features** 
-
-🔍 Smart Search – Queries OpenSearch for indexed content and ranks results.
-
-⚡ Cache Optimization – Uses Redis to store frequent responses for faster access.
-
-🌍 Real-time Response – Integrates OpenSearch & Redis for instant data retrieval.
-
-🔄 API-Based Architecture – Exposes endpoints for external integration.
-
-🎨 Minimal UI – Simple JavaScript-based frontend for seamless interaction.
+- OpenSearch – Indexes and retrieves structured and semantic search data.
+- Redis (Cache) – Provides ultra‑fast, in‑memory access to frequently used results.
+- Flask Backend (Python) – Orchestrates queries, integrates with OpenSearch & Redis, and exposes APIs.
+- Frontend (JavaScript, HTML, CSS) – A lightweight interface for seamless user interaction.
+The chatbot intelligently ranks and retrieves the best matches from OpenSearch, while Redis ensures rapid response times. It is designed for customer support, knowledge bases
 
 **How It Works**
 
-- A user submits a query in the chatbot UI.
+- The user submits his query in the chatbot UI.
 
 - The Flask backend processes the request and:
 First checks Redis for cached responses.
