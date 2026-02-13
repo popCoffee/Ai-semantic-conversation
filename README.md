@@ -9,6 +9,9 @@ This chatbot application delivers fast, accurate, and context‑aware responses 
 - Frontend (JavaScript, HTML, CSS) – A lightweight interface for seamless user interaction.
 The chatbot intelligently ranks and retrieves the best matches from OpenSearch, while Redis ensures rapid response times. It is designed for customer support, knowledge bases
 
+*OUTPUT*::::
+![AI Sample Test Screenshot](https://github.com/popCoffee/Ai-semantic-conversation/blob/main/Screenshot_ai_sample_test_opensearch.png)
+
 **How It Works**
 
 - The user submits his query in the chatbot UI.
