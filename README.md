@@ -10,6 +10,7 @@ This chatbot application delivers fast, accurate, and context‑aware responses 
 The chatbot intelligently ranks and retrieves the best matches from OpenSearch, while Redis ensures rapid response times. It is designed for customer support, knowledge bases
 
 *OUTPUT*::::
+![Ai screenshot interaction ](https://github.com/popCoffee/Ai-semantic-conversation/blob/main/plot_with_transaction.png) 
 ![AI Sample Test Screenshot](https://github.com/popCoffee/Ai-semantic-conversation/blob/main/Screenshot_ai_sample_test_opensearch.png)
 
 **How It Works**
